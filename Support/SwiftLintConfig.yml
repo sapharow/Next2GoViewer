@@ -1,0 +1,56 @@
+cyclomatic_complexity:
+  ignores_case_statements: true
+
+excluded:
+  - ../Next2Go/.build
+
+custom_rules:
+  todo_without_issue:
+    name: "TODO or FIXME Without Issue"
+    message: "TODO or FIXME comments must include issue reference eg: // TODO: [sc-123] Description"
+    regex: "(TODO|FIXME)(?!: [\\(\\[][sS][cC]-\\d+[\\)\\]]\\s:?.+)"
+    match_kinds: [comment]
+    severity: warning
+
+disabled_rules:
+  - blanket_disable_command
+  - inclusive_language
+  - optional_data_string_conversion
+  - todo
+
+identifier_name:
+  min_length:
+    warning: 1
+    error: 1
+
+file_length:
+  warning: 800
+  error: 1500
+
+type_body_length: 500
+
+function_body_length: 120
+
+large_tuple:
+  warning: 4
+  error: 5
+
+line_length: 250
+
+nesting:
+  type_level: 
+    warning: 5
+    error: 7
+
+opt_in_rules:
+  - sorted_imports
+
+type_name:
+  min_length: 2
+  max_length:
+    warning: 50
+    error: 60
+  allowed_symbols: ["_"]
+
+vertical_whitespace:
+  max_empty_lines: 2
