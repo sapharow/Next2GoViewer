@@ -1,0 +1,37 @@
+{
+    "class": "MDN",
+    "country": "USA",
+    "gait": "Gallop",
+    "group": "",
+    "localised_prizemonies": {
+        "AUD": {
+            "1st": 30170,
+            "2nd": 9578,
+            "3rd": 4789,
+            "4th": 3352,
+            "total_value": 47889
+        },
+        "NZD": {
+            "1st": 36204,
+            "2nd": 11494,
+            "3rd": 5747,
+            "4th": 4022,
+            "total_value": 57467
+        }
+    },
+    "number": 5,
+    "prizemonies": {
+        "total_value": 47889
+    },
+    "race_comment_provider": "racingandsports",
+    "race_name": "Race 5 - Maiden Special Weight",
+    "rail_position": "True",
+    "start_type": "",
+    "state": "WV",
+    "time": "2026-04-04T01:10:00Z",
+    "track_circumference": 0,
+    "track_direction": "Left",
+    "track_home_straight_metres": 0,
+    "track_name": "Charles Town",
+    "track_surface": "Dirt"
+}

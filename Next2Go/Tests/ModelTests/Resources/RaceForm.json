@@ -1,0 +1,27 @@
+{
+    "additional_data": "{\"revealed_race_info\":{\"track_name\":\"Caulfield\",\"state\":\"VIC\",\"country\":\"AUS\",\"number\":1,\"race_name\":\"Robert Taranto Hcp (Bm74)\",\"time\":\"2026-04-04T01:10:00Z\",\"class\":\"BM74\",\"start_type\":\"\",\"prizemonies\":{\"10th\":1600,\"1st\":44000,\"2nd\":14400,\"3rd\":7200,\"4th\":4000,\"5th\":2400,\"6th\":1600,\"7th\":1600,\"8th\":1600,\"9th\":1600,\"total_value\":80000},\"localised_prizemonies\":{\"AUD\":{\"10th\":1600,\"1st\":44000,\"2nd\":14400,\"3rd\":7200,\"4th\":4000,\"5th\":2400,\"6th\":1600,\"7th\":1600,\"8th\":1600,\"9th\":1600,\"total_value\":80000},\"NZD\":{\"10th\":1920,\"1st\":52800,\"2nd\":17280,\"3rd\":8640,\"4th\":4800,\"5th\":2880,\"6th\":1920,\"7th\":1920,\"8th\":1920,\"9th\":1920,\"total_value\":96000}},\"rail_position\":\"Out 4m Entire Circuit.\",\"track_direction\":\"Left\",\"track_surface\":\"Turf\",\"group\":\"\",\"gait\":\"Gallop\",\"track_home_straight_metres\":0,\"track_circumference\":2080,\"race_comment_provider\":\"racingandsports\"}}",
+    "distance": 1800,
+    "distance_type": {
+        "id": "570775ae-09ec-42d5-989d-7c8f06366aa7",
+        "name": "Metres",
+        "short_name": "m"
+    },
+    "distance_type_id": "570775ae-09ec-42d5-989d-7c8f06366aa7",
+    "generated": 1,
+    "race_comment": "MUKHTALIF (4) creates interest in the opener. He's an import for the Ciaron Maher yard who was last seen winning very well in fast time at York over 2112m, posting a rating that would take a bit of beating in this. He's won a 1500m trial here which suggests he should be quite forward and he can make a winning local debut. ENGINE OF WAR (10) resumed over 1500m at Caulfield Heath and ran well off a strong tempo, sticking on well nearer the inside to finish second. He showed good staying promise last time in and can improve into this. CURSE IT (3) had his winning streak come to an end last time at Caulfield Heath but still ran well and should be right there again. OVERACTIVE (5) improved nicely second up to score narrowly at Cranbourne and will be fitter again. HALLOWED HALLS (11) beat CURSE IT last time and has to be respected deep into his first campaign.",
+    "race_comment_alternative": "MUKHTALIF (4) creates interest in the opener. He's an import for the Ciaron Maher yard who was last seen winning very well in fast time at York over 2112m, posting a rating that would take a bit of beating in this. He's won a 1500m trial here which suggests he should be quite forward and he can make a winning local debut. ENGINE OF WAR (10) resumed over 1500m at Caulfield Heath and ran well off a strong tempo, sticking on well nearer the inside to finish second. He showed good staying promise last time in and can improve into this. CURSE IT (3) had his winning streak come to an end last time at Caulfield Heath but still ran well and should be right there again. OVERACTIVE (5) improved nicely second up to score narrowly at Cranbourne and will be fitter again. HALLOWED HALLS (11) beat CURSE IT last time and has to be respected deep into his first campaign.",
+    "silk_base_url": "drr38safykj6s.cloudfront.net",
+    "track_condition": {
+        "id": "11d7e662-487a-11ea-9d54-4689356d4521",
+        "name": "Good4",
+        "short_name": "good4"
+    },
+    "track_condition_id": "11d7e662-487a-11ea-9d54-4689356d4521",
+    "weather": {
+        "icon_uri": "FINE",
+        "id": "08e5f78c-1a36-11eb-9269-cef03e67f1a3",
+        "name": "FINE",
+        "short_name": "fine"
+    },
+    "weather_id": "08e5f78c-1a36-11eb-9269-cef03e67f1a3"
+}
