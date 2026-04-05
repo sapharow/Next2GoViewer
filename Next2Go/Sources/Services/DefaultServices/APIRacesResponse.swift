@@ -5,7 +5,7 @@
 //  Created by Iskandar Safarov on 4/4/2026.
 //
 
-import Foundation
+import Model
 
 // Response from the API
 struct APIRacesResponse: Decodable, Sendable {

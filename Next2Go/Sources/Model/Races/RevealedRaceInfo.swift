@@ -7,6 +7,7 @@
 
 
 package struct RevealedRaceInfo: Decodable, Sendable {
+
     package var raceClass: String
     package var country: String
     package var gait: String
@@ -25,6 +26,46 @@ package struct RevealedRaceInfo: Decodable, Sendable {
     package var trackHomeStraightMetres: Int
     package var trackName: String
     package var trackSurface: String
+
+    package init(
+        raceClass: String,
+        country: String,
+        gait: String,
+        group: String,
+        localisedPrizemonies: [String: [String: Int]],
+        number: Int,
+        prizemonies: [String: Int],
+        raceCommentProvider: String,
+        raceName: String,
+        railPosition: String,
+        startType: String,
+        state: String,
+        time: String,
+        trackCircumference: Int,
+        trackDirection: String,
+        trackHomeStraightMetres: Int,
+        trackName: String,
+        trackSurface: String
+    ) {
+        self.raceClass = raceClass
+        self.country = country
+        self.gait = gait
+        self.group = group
+        self.localisedPrizemonies = localisedPrizemonies
+        self.number = number
+        self.prizemonies = prizemonies
+        self.raceCommentProvider = raceCommentProvider
+        self.raceName = raceName
+        self.railPosition = railPosition
+        self.startType = startType
+        self.state = state
+        self.time = time
+        self.trackCircumference = trackCircumference
+        self.trackDirection = trackDirection
+        self.trackHomeStraightMetres = trackHomeStraightMetres
+        self.trackName = trackName
+        self.trackSurface = trackSurface
+    }
 
     enum CodingKeys: String, CodingKey {
         case raceClass = "class"

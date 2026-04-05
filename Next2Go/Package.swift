@@ -26,20 +26,22 @@ let package = Package(
         .target(
             name: "ViewModel",
             dependencies: [
-                "Model"
+                "Model",
+                "Services",
+                .product(name: "Factory", package: "Factory")
             ]
         ),
         .target(
             name: "Services",
             dependencies: [
-                "Model"
+                "Model",
+                .product(name: "Factory", package: "Factory")
             ]
         ),
         .target(
             name: "Next2GoUI",
             dependencies: [
-                "ViewModel",
-                .product(name: "Factory", package: "Factory")
+                "ViewModel"
             ]
         ),
         .testTarget(
@@ -58,7 +60,8 @@ let package = Package(
         .testTarget(
             name: "ServicesTests",
             dependencies: [
-                "Services"
+                "Services",
+                .product(name: "Factory", package: "Factory")
             ]
         )
     ],

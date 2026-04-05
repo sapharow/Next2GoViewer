@@ -10,6 +10,11 @@ package struct Races: Decodable, Sendable {
     package var nextToGo: [String]
     package var raceSummaries: [String: RaceSummary]
 
+    package init(nextToGo: [String], raceSummaries: [String: RaceSummary]) {
+        self.nextToGo = nextToGo
+        self.raceSummaries = raceSummaries
+    }
+
     enum CodingKeys: String, CodingKey {
         case nextToGo = "next_to_go_ids"
         case raceSummaries = "race_summaries"
