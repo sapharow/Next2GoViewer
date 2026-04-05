@@ -17,4 +17,14 @@ package extension Container {
             .scope(.cached)
     }
 
+#if targetEnvironment(simulator)
+
+    /// Configures demo implementations used only by SwiftUI previews.
+    func configurePreviewServices() {
+        races.reset()
+        races.preview { DemoRacesService() }
+    }
+
+#endif
+
 }
