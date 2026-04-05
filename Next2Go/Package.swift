@@ -17,7 +17,10 @@ let package = Package(
         // I'm usually not easily taking dependencies onboard.
         // This one is used to save some dev time and demonstrate dependency-injectable notion of services
         // This is far from ideal, but closest one I found to what I wanted
-        .package(url: "https://github.com/hmlongco/Factory", .upToNextMajor(from: "2.5.3"))
+        .package(url: "https://github.com/hmlongco/Factory", .upToNextMajor(from: "2.5.3")),
+
+        // This is to have typed SFSymbols identifiers instead of freeform text ones
+        .package(url: "https://github.com/SFSafeSymbols/SFSafeSymbols", .upToNextMajor(from: "7.0.0"))
     ],
     targets: [
         .target(
@@ -28,7 +31,8 @@ let package = Package(
             dependencies: [
                 "Model",
                 "Services",
-                .product(name: "Factory", package: "Factory")
+                .product(name: "Factory", package: "Factory"),
+                .product(name: "SFSafeSymbols", package: "SFSafeSymbols")
             ]
         ),
         .target(
@@ -41,8 +45,10 @@ let package = Package(
         .target(
             name: "Next2GoUI",
             dependencies: [
-                "ViewModel"
-            ]
+                "ViewModel",
+                .product(name: "SFSafeSymbols", package: "SFSafeSymbols")
+            ],
+            path: "Sources/Next2GoUI"
         ),
         .testTarget(
             name: "ModelTests",

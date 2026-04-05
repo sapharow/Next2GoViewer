@@ -9,13 +9,7 @@ import SwiftUI
 
 public struct ContentView: View {
     public var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+        RaceView(viewModel: .preview)
     }
 
     public init() {
@@ -24,5 +18,7 @@ public struct ContentView: View {
 }
 
 #Preview {
+    // XCode 26.4 got a regression bug - Previews of the UI inside of the package do not work.
+    // Bug is fixed in XCode 26.5 Beta 1
     ContentView()
 }

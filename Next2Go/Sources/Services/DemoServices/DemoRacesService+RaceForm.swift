@@ -12,7 +12,7 @@ import Model
 
 #if targetEnvironment(simulator)
 
-extension RaceForm {
+package extension RaceForm {
 
     static let raceForm1 = RaceForm(
         additionalData: .additionalData1,
