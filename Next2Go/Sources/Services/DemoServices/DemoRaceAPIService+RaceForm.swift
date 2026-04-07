@@ -10,8 +10,6 @@
 import Foundation
 import Model
 
-#if targetEnvironment(simulator)
-
 package extension RaceForm {
 
     static let raceForm1 = RaceForm(
@@ -289,5 +287,3 @@ package extension RaceForm {
         weatherId: "08e5f78c-1a36-11eb-9269-cef03e67f1a3"
     )
 }
-
-#endif

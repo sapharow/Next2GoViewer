@@ -137,7 +137,6 @@ extension String {
 
 // MARK: - Preview
 
-#if targetEnvironment(simulator)
 package extension RaceListViewModel {
 
     /// Preview-ready view model with demo services preconfigured.
@@ -147,5 +146,3 @@ package extension RaceListViewModel {
     }
 
 }
-
-#endif

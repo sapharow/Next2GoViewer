@@ -8,8 +8,6 @@
 import Foundation
 import Model
 
-#if targetEnvironment(simulator)
-
 extension RaceForm.AdditionalData {
 
     static let additionalData1 = RaceForm.AdditionalData(
@@ -494,5 +492,3 @@ extension RaceForm.AdditionalData {
         )
     )
 }
-
-#endif

@@ -22,14 +22,12 @@ package extension Container {
             .scope(.cached)
     }
 
-#if targetEnvironment(simulator)
-
     /// Configures demo implementations used only by SwiftUI previews.
     func configurePreviewServices() {
         raceAPI.reset()
+#if targetEnvironment(simulator)
         raceAPI.preview { DemoRaceAPIService() }
-    }
-
 #endif
+    }
 
 }

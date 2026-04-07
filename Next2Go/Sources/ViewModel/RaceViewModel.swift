@@ -222,8 +222,6 @@ extension String {
 
 // MARK: - Preview
 
-#if targetEnvironment(simulator)
-
 package extension RaceViewModel {
 
     static var preview: RaceViewModel {
@@ -231,5 +229,3 @@ package extension RaceViewModel {
     }
 
 }
-
-#endif

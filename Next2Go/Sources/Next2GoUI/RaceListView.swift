@@ -62,10 +62,8 @@ public struct RaceListView: View {
     }
 }
 
-#if targetEnvironment(simulator)
 #Preview {
     // Xcode 26.4 has a regression where package previews do not work
     // The fix is in Xcode 26.5 Beta 1
     RaceListView(viewModel: .preview)
 }
-#endif
