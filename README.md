@@ -1,6 +1,7 @@
 # Next2GoViewer
 
 `Next2GoViewer` is a small SwiftUI app that shows the next races to watch
+(similar to https://www.neds.com.au/next-to-go)
 
 The repo has two main parts:
 - `App/` contains the app entry point
@@ -22,6 +23,9 @@ The list screen filters races by category, hides expired races, and keeps only t
 The countdown labels update every second in the view model so the UI stays live between network refreshes
 
 ## Build
+
+Built for XCode 26.4 (use XCode 26.5 b1 for previews as 26.4 has a regression bug breaking preview of the UI from package)
+Target iOS: 26.2
 
 Build the app with `xcodebuild`:
 

@@ -11,6 +11,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6220B1A42F85028C00FA8CDD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		624F35EA2F84F43B00DB53DB /* Next2GoViewer.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Next2GoViewer.xctestplan; sourceTree = "<group>"; };
 		624F35EB2F84F46400DB53DB /* Next2Go.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = Next2Go.xctestplan; path = Next2Go/Next2Go.xctestplan; sourceTree = "<group>"; };
 		62B130C02F80966D00854AC4 /* Next2GoViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Next2GoViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -45,9 +46,10 @@
 		62B130B72F80966D00854AC4 = {
 			isa = PBXGroup;
 			children = (
+				62B131192F809AF400854AC4 /* Next2Go */,
+				6220B1A42F85028C00FA8CDD /* README.md */,
 				624F35EB2F84F46400DB53DB /* Next2Go.xctestplan */,
 				624F35EA2F84F43B00DB53DB /* Next2GoViewer.xctestplan */,
-				62B131192F809AF400854AC4 /* Next2Go */,
 				62B130C22F80966D00854AC4 /* App */,
 				62B131072F809ABC00854AC4 /* Frameworks */,
 				62B130C12F80966D00854AC4 /* Products */,
