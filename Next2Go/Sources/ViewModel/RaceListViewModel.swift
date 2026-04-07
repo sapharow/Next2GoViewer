@@ -35,6 +35,8 @@ public final class RaceListViewModel {
     @ObservationIgnored
     private var unfilteredRaces: [RaceSummary] = []
 
+    package let categoriesLabel = String(localized: .categoryFilterLabel)
+
     public init() {
         // Intentionally left blank
         let store = raceStoreService
@@ -61,9 +63,15 @@ public final class RaceListViewModel {
     func updateRaceFiltering() {
         raceViewModels = unfilteredRaces
             .compactMap { race in
-                race.categoryId.raceCategory.map {
-                    RaceViewModel(id: race.raceId, raceForm: race.raceForm, seconds: race.advertisedStart.seconds, category: $0)
+                guard let category = race.categoryId.raceCategory else {
+                    return nil
                 }
+
+                if !raceCategories.isEmpty, !raceCategories.contains(category) {
+                    return nil
+                }
+
+                return RaceViewModel(id: race.raceId, raceForm: race.raceForm, seconds: race.advertisedStart.seconds, category: category)
             }
     }
 

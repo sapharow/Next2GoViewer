@@ -5,6 +5,7 @@
 //  Created by Iskandar Safarov on 4/4/2026.
 //
 
+import Model
 import SwiftUI
 import ViewModel
 
@@ -14,18 +15,52 @@ public struct RaceListView: View {
 
     /// Active races shown in the list.
     private var visibleRaceViewModels: [RaceViewModel] {
-        viewModel.raceViewModels.filter { !$0.isExpired }
+        Array(
+            viewModel.raceViewModels
+                .filter { !$0.isExpired }
+                .prefix(5)
+        )
+    }
+
+    private var filterMenu: some View {
+        Menu {
+            ForEach(RaceCategory.allCases, id: \.self) { category in
+                Button {
+                    if viewModel.raceCategories.contains(category) {
+                        viewModel.raceCategories.remove(category)
+                    } else {
+                        viewModel.raceCategories.insert(category)
+                    }
+                } label: {
+                    if viewModel.raceCategories.contains(category) {
+                        Label(category.name, systemSymbol: .checkmark)
+                    } else {
+                        Text(category.name)
+                    }
+                }
+            }
+        } label: {
+            Label(viewModel.categoriesLabel, systemSymbol: .line3HorizontalDecreaseCircle)
+        }
+        .compositingGroup() // This works around SwiftUI bug in iOS 26
     }
 
     public var body: some View {
-        List {
-            ForEach(visibleRaceViewModels, id: \.id) { value in
-                RaceView(viewModel: value)
+        VStack {
+            HStack {
+                Spacer()
+                filterMenu
+                    .padding(.horizontal)
             }
-        }
-        .animation(.default, value: visibleRaceViewModels.map(\.id))
-        .refreshable {
-            viewModel.refreshRaces()
+            List {
+                ForEach(visibleRaceViewModels, id: \.id) { value in
+                    RaceView(viewModel: value)
+                }
+            }
+            .animation(.default, value: visibleRaceViewModels.map(\.id))
+            .refreshable {
+                viewModel.refreshRaces()
+            }
         }
     }
 

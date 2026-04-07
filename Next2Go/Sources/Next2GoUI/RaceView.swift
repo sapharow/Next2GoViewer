@@ -19,7 +19,7 @@ struct RaceView: View {
         HStack {
             Capsule()
                 .frame(width: 4)
-                .foregroundStyle(categoryColor)
+                .foregroundStyle(viewModel.category.color)
             VStack(alignment: .leading) {
                 title
                 horizontalDivider
@@ -33,7 +33,7 @@ struct RaceView: View {
     private var title: some View {
         HStack(alignment: .top) {
             // Category icon
-            categoryImage
+            viewModel.category.image
                 .resizable()
                 .scaledToFit()
                 .frame(height: categoryIconSize)
@@ -74,36 +74,8 @@ struct RaceView: View {
     private var horizontalDivider: some View {
         Rectangle()
             .frame(height: 1)
-            .foregroundStyle(categoryColor)
+            .foregroundStyle(viewModel.category.color)
             .opacity(0.25)
-    }
-
-}
-
-// MARK: - Convenient views
-
-private extension RaceView {
-
-    var categoryImage: Image {
-        switch viewModel.category {
-        case .greyhound:
-            Image(.greyhound)
-        case .harness:
-            Image(.harness)
-        case .horse:
-            Image(.horse)
-        }
-    }
-
-    var categoryColor: Color {
-        switch viewModel.category {
-        case .greyhound:
-            .indigo
-        case .harness:
-            .blue
-        case .horse:
-            .orange
-        }
     }
 
 }

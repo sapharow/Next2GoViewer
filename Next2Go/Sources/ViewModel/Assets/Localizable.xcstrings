@@ -155,6 +155,28 @@
         }
       }
     },
+    "CategoryFilterLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categories"
+          }
+        }
+      }
+    },
+    "RaceCategoryNameAll" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All categories"
+          }
+        }
+      }
+    },
     "RaceCategoryNameGreyhound" : {
       "extractionState" : "manual",
       "localizations" : {

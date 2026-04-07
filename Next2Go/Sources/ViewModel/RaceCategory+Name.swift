@@ -5,11 +5,7 @@
 //  Created by Iskandar Safarov on 7/4/2026.
 //
 
-package enum RaceCategory: Sendable {
-    case greyhound
-    case harness
-    case horse
-}
+import Model
 
 package extension RaceCategory {
 
