@@ -19,16 +19,16 @@ package struct RaceSummary: Decodable, Sendable, Equatable {
 
     package var advertisedStart: StartTime
     package var categoryId: String
-    package var meetingId: String
-    package var meetingName: String
+    package var meetingId: String?
+    package var meetingName: String?
     package var raceForm: RaceForm
     package var raceId: String
     package var raceName: String
-    package var raceNumber: Int
-    package var venueCountry: String
-    package var venueId: String
-    package var venueName: String
-    package var venueState: String
+    package var raceNumber: Int?
+    package var venueCountry: String?
+    package var venueId: String?
+    package var venueName: String?
+    package var venueState: String?
 
     package init(
         advertisedStart: StartTime,

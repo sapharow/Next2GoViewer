@@ -42,7 +42,14 @@ enum ISO3166 {
         "TON": "TO", "TTO": "TT", "TUN": "TN", "TUR": "TR", "TKM": "TM", "TCA": "TC", "TUV": "TV", "UGA": "UG",
         "UKR": "UA", "ARE": "AE", "GBR": "GB", "USA": "US", "UMI": "UM", "URY": "UY", "UZB": "UZ", "VUT": "VU",
         "VEN": "VE", "VNM": "VN", "VGB": "VG", "VIR": "VI", "WLF": "WF", "ESH": "EH", "YEM": "YE", "ZMB": "ZM",
-        "ZWE": "ZW"
+        "ZWE": "ZW",
+        // Extra
+        "IRE": "IE"
+    ]
+
+    // Correction for "incorrect" country codes
+    private static let alpha2ToAlpha2: [String: String] = [
+        "UK": "GB"
     ]
 
     private static func alpha2(from alpha3: String) -> String? {
@@ -62,7 +69,8 @@ enum ISO3166 {
     }
 
     static func localizedCountry(alpha3: String) -> String? {
-        guard let alpha2 = alpha2(from: alpha3) else {
+        guard let alpha2 = alpha3.count == 2 ?
+                (alpha2ToAlpha2[alpha3] ?? alpha3) : alpha2(from: alpha3) else {
             return nil
         }
 
@@ -71,10 +79,11 @@ enum ISO3166 {
     }
 
     static func flag(alpha3: String) -> String? {
-        guard let a2 = alpha2(from: alpha3) else {
+        guard let alpha2 = alpha3.count == 2 ?
+                (alpha2ToAlpha2[alpha3] ?? alpha3) : alpha2(from: alpha3) else {
             return nil
         }
 
-        return flag(alpha2: a2)
+        return flag(alpha2: alpha2)
     }
 }

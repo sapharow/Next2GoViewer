@@ -10,20 +10,20 @@ package struct RevealedRaceInfo: Decodable, Sendable, Equatable {
 
     package var raceClass: String
     package var country: String
-    package var gait: String
-    package var group: String
-    package var localisedPrizemonies: [String: [String: Int]]
-    package var number: Int
-    package var prizemonies: [String: Int]
-    package var raceCommentProvider: String
+    package var gait: String?
+    package var group: String?
+    package var localisedPrizemonies: [String: [String: Int]]?
+    package var number: Int?
+    package var prizemonies: [String: Int]?
+    package var raceCommentProvider: String?
     package var raceName: String
-    package var railPosition: String
-    package var startType: String
+    package var railPosition: String?
+    package var startType: String?
     package var state: String
-    package var time: String // Seems like ISO8601
-    package var trackCircumference: Int
+    package var time: String?
+    package var trackCircumference: Int?
     package var trackDirection: String
-    package var trackHomeStraightMetres: Int
+    package var trackHomeStraightMetres: Int?
     package var trackName: String
     package var trackSurface: String
 
@@ -32,7 +32,7 @@ package struct RevealedRaceInfo: Decodable, Sendable, Equatable {
         country: String,
         gait: String,
         group: String,
-        localisedPrizemonies: [String: [String: Int]],
+        localisedPrizemonies: [String: [String: Int]]?,
         number: Int,
         prizemonies: [String: Int],
         raceCommentProvider: String,

@@ -80,6 +80,7 @@ struct RaceView: View {
 
 }
 
+#if targetEnvironment(simulator)
 #Preview {
     // XCode 26.4 got a regression bug - Previews of the UI inside of the package do not work.
     // Bug is fixed in XCode 26.5 Beta 1
@@ -87,3 +88,4 @@ struct RaceView: View {
         RaceView(viewModel: .preview)
     }
 }
+#endif
