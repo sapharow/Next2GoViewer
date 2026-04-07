@@ -19,17 +19,11 @@ struct RaceView: View {
         VStack(alignment: .leading) {
             HStack(alignment: .top) {
                 // Category icon
-                VStack(alignment: .center) {
-                    categoryImage
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: categoryIconSize)
-                        .padding(4)
-                    Spacer()
-                    if let weatherSymbol = viewModel.weatherSymbol {
-                        Image(systemSymbol: weatherSymbol)
-                    }
-                }
+                categoryImage
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: categoryIconSize)
+                    .padding(4)
 
                 VStack(alignment: .leading) {
                     // Title
@@ -42,6 +36,11 @@ struct RaceView: View {
                             .font(.subheadline)
                             .fontWeight(.bold)
                     }
+                }
+
+                Spacer()
+                if let weatherSymbol = viewModel.weatherSymbol {
+                    Image(systemSymbol: weatherSymbol)
                 }
             }
             .accessibilityElement(children: .ignore)

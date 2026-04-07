@@ -45,6 +45,17 @@
         }
       }
     },
+    "AccessibilityRaceWeatherCloudy" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cloudy"
+          }
+        }
+      }
+    },
     "AccessibilityRaceWeatherLabel" : {
       "extractionState" : "manual",
       "localizations" : {

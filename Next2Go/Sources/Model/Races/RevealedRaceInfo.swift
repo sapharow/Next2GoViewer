@@ -6,7 +6,7 @@
 //
 
 
-package struct RevealedRaceInfo: Decodable, Sendable {
+package struct RevealedRaceInfo: Decodable, Sendable, Equatable {
 
     package var raceClass: String
     package var country: String

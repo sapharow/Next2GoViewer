@@ -7,12 +7,14 @@
 
 import Next2GoUI
 import SwiftUI
+import ViewModel
 
 @main
 struct Next2GoViewerApp: App {
+    let viewModel = RaceListViewModel()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RaceListView(viewModel: viewModel)
         }
     }
 }

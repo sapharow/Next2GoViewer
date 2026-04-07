@@ -7,6 +7,7 @@
 
 
 package struct Races: Decodable, Sendable {
+
     package var nextToGo: [String]
     package var raceSummaries: [String: RaceSummary]
 

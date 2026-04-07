@@ -6,7 +6,7 @@
 //
 
 
-package struct RaceForm: Decodable, Sendable {
+package struct RaceForm: Decodable, Sendable, Equatable {
 
     package struct Details: Decodable, Equatable {
 
@@ -35,7 +35,7 @@ package struct RaceForm: Decodable, Sendable {
         }
     }
 
-    package struct AdditionalData: Decodable {
+    package struct AdditionalData: Decodable, Equatable {
 
         package var revealedRaceInfo: RevealedRaceInfo
 

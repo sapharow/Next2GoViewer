@@ -12,13 +12,7 @@ import SFSafeSymbols
 
 @MainActor
 @Observable
-package final class RaceViewModel {
-
-    package enum RaceCategory: Sendable {
-        case greyhound
-        case harness
-        case horse
-    }
+package final class RaceViewModel: Identifiable {
 
     package struct Weather: Sendable {
         package let symbol: SFSymbol
@@ -38,6 +32,7 @@ package final class RaceViewModel {
 
     // MARK: Constants
 
+    package let id: String
     package let title: String
     package let category: RaceCategory
     package let weatherSymbol: SFSymbol?
@@ -53,8 +48,9 @@ package final class RaceViewModel {
     private let startTimestamp: Int
     private var countdownTimer: Timer?
 
-    init(raceForm: RaceForm, seconds: Int, category: RaceCategory) {
+    init(id: String, raceForm: RaceForm, seconds: Int, category: RaceCategory) {
 
+        self.id = id
         self.category = category
         let country = raceForm.additionalData.revealedRaceInfo.country
 
@@ -225,21 +221,6 @@ extension RaceViewModel {
 }
 
 
-package extension RaceViewModel.RaceCategory {
-
-    var name: String {
-        switch self {
-        case .greyhound:
-            String(localized: .raceCategoryNameGreyhound)
-        case .harness:
-            String(localized: .raceCategoryNameHarness)
-        case .horse:
-            String(localized: .raceCategoryNameHorse)
-        }
-    }
-
-}
-
 extension RaceForm {
 
     // Race weather
@@ -255,6 +236,11 @@ extension RaceForm {
                 .init(
                     symbol: .cloudSunFill,
                     accessibilityLabel: String(localized: .accessibilityRaceWeatherLabel(weather: String(localized: .accessibilityRaceWeatherOvercast)))
+                )
+        case "18c6f07a-b37b-11e7-aabe-061a47531548":
+                .init(
+                    symbol: .cloudFill,
+                    accessibilityLabel: String(localized: .accessibilityRaceWeatherLabel(weather: String(localized: .accessibilityRaceWeatherCloudy)))
                 )
         default:
             // nil or unknown
@@ -295,7 +281,7 @@ extension String {
 package extension RaceViewModel {
 
     static var preview: RaceViewModel {
-        .init(raceForm: .raceForm1, seconds: Int(Date.now.timeIntervalSince1970) + 50, category: .horse)
+        .init(id: "1", raceForm: .raceForm1, seconds: Int(Date.now.timeIntervalSince1970) + 50, category: .horse)
     }
 
 }

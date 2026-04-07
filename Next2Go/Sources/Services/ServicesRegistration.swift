@@ -12,8 +12,13 @@ import Model
 package extension Container {
 
     /// Races service available throughout the app
-    var races: Factory<RacesService> {
-        self { RacesServiceImpl() }
+    var raceAPI: Factory<RaceAPIService> {
+        self { RaceAPIServiceImpl() }
+            .scope(.cached)
+    }
+
+    var raceStore: Factory<RaceStoreService> {
+        self { RaceStoreServiceImpl() }
             .scope(.cached)
     }
 
@@ -21,8 +26,8 @@ package extension Container {
 
     /// Configures demo implementations used only by SwiftUI previews.
     func configurePreviewServices() {
-        races.reset()
-        races.preview { DemoRacesService() }
+        raceAPI.reset()
+        raceAPI.preview { DemoRaceAPIService() }
     }
 
 #endif

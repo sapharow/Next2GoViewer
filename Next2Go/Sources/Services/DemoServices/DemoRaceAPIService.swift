@@ -1,5 +1,5 @@
 //
-//  DemoRacesService.swift
+//  DemoRaceAPIService.swift
 //  Next2Go
 //
 //  Created by Iskandar Safarov on 4/4/2026.
@@ -11,11 +11,11 @@ import Model
 #if targetEnvironment(simulator)
 
 /// Preview-only races service returning deterministic demo data.
-actor DemoRacesService: RacesService {
+actor DemoRaceAPIService: RaceAPIService {
 
-    func getRaces() async throws -> Races {
+    func getRaces() async throws -> [RaceSummary] {
         try await Task.sleep(for: .milliseconds(300))
-        return .demoRaces
+        return Array(Races.demoRaces.raceSummaries.values)
     }
 
 }

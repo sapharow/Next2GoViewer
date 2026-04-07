@@ -1,5 +1,5 @@
 //
-//  DemoRacesService+Races.swift
+//  DemoRaceAPIService+Races.swift
 //  Next2Go
 //
 //  Created by Iskandar Safarov on 4/4/2026.

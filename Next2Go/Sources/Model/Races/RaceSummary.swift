@@ -6,9 +6,9 @@
 //
 
 
-package struct RaceSummary: Decodable, Sendable {
+package struct RaceSummary: Decodable, Sendable, Equatable {
 
-    package struct StartTime: Decodable, Sendable {
+    package struct StartTime: Decodable, Sendable, Equatable {
 
         package var seconds: Int
 
