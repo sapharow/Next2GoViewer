@@ -16,62 +16,66 @@ struct RaceView: View {
     @ScaledMetric(relativeTo: .body) private var categoryIconSize: CGFloat = 32
 
     public var body: some View {
-        VStack(alignment: .leading) {
-            HStack(alignment: .top) {
-                // Category icon
-                categoryImage
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: categoryIconSize)
-                    .padding(4)
-
-                VStack(alignment: .leading) {
-                    // Title
-                    Text(viewModel.title)
-                        .font(.title3)
-
-                    // Location info
-                    HStack {
-                        Text(viewModel.location)
-                            .font(.subheadline)
-                            .fontWeight(.bold)
-                    }
-                }
-
-                Spacer()
-                if let weatherSymbol = viewModel.weatherSymbol {
-                    Image(systemSymbol: weatherSymbol)
-                }
+        HStack {
+            Capsule()
+                .frame(width: 4)
+                .foregroundStyle(categoryColor)
+            VStack(alignment: .leading) {
+                title
+                horizontalDivider
+                TrackInfoView(info: viewModel.trackInfo)
+                horizontalDivider
+                startTime
             }
-            .accessibilityElement(children: .ignore)
-            .accessibilityLabel(viewModel.accessibilityTitle)
-            .accessibilityAddTraits(.isHeader)
-
-            Rectangle()
-                .frame(height: 1)
-                .opacity(0.25)
-
-            // Track info
-            TrackInfoView(info: viewModel.trackInfo)
-
-            Rectangle()
-                .frame(height: 1)
-                .opacity(0.25)
-
-            // Race timing
-            HStack {
-                if let startDateTime = viewModel.startDateTime {
-                    Text(startDateTime)
-                }
-                Spacer()
-                Text(viewModel.countdown.label)
-                    .foregroundStyle(viewModel.isStarted ? .red : .primary)
-                    .accessibilityAddTraits(.updatesFrequently)
-                    .accessibilityLabel(viewModel.countdown.accessibilityLabel)
-            }
-
         }
-        .padding()
+    }
+
+    private var title: some View {
+        HStack(alignment: .top) {
+            // Category icon
+            categoryImage
+                .resizable()
+                .scaledToFit()
+                .frame(height: categoryIconSize)
+                .padding(4)
+
+            VStack(alignment: .leading) {
+                // Title
+                Text(viewModel.title)
+                    .font(.title3)
+                    .accessibilityLabel(viewModel.accessibilityRaceName)
+
+                // Location info
+                HStack {
+                    Text(viewModel.location)
+                        .font(.subheadline)
+                        .fontWeight(.bold)
+                        .accessibilityLabel(viewModel.accessibilityRaceLocation)
+                }
+            }
+        }
+        .accessibilityAddTraits(.isHeader)
+    }
+
+    private var startTime: some View {
+        HStack {
+            if let weather = viewModel.weather {
+                Image(systemSymbol: weather.symbol)
+                    .accessibilityLabel(weather.accessibilityLabel)
+            }
+            Spacer()
+            Text(viewModel.countdown.label)
+                .foregroundStyle(viewModel.isStarted ? .red : .primary)
+                .accessibilityAddTraits(.updatesFrequently)
+                .accessibilityLabel(viewModel.countdown.accessibilityLabel)
+        }
+    }
+
+    private var horizontalDivider: some View {
+        Rectangle()
+            .frame(height: 1)
+            .foregroundStyle(categoryColor)
+            .opacity(0.25)
     }
 
 }
@@ -88,6 +92,17 @@ private extension RaceView {
             Image(.harness)
         case .horse:
             Image(.horse)
+        }
+    }
+
+    var categoryColor: Color {
+        switch viewModel.category {
+        case .greyhound:
+            .indigo
+        case .harness:
+            .blue
+        case .horse:
+            .orange
         }
     }
 

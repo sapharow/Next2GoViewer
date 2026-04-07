@@ -12,12 +12,18 @@ public struct RaceListView: View {
 
     let viewModel: RaceListViewModel
 
+    /// Active races shown in the list.
+    private var visibleRaceViewModels: [RaceViewModel] {
+        viewModel.raceViewModels.filter { !$0.isExpired }
+    }
+
     public var body: some View {
-        ScrollView {
-            ForEach(viewModel.raceViewModels, id: \.id) { value in
+        List {
+            ForEach(visibleRaceViewModels, id: \.id) { value in
                 RaceView(viewModel: value)
             }
         }
+        .animation(.default, value: visibleRaceViewModels.map(\.id))
         .refreshable {
             viewModel.refreshRaces()
         }

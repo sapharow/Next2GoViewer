@@ -35,11 +35,12 @@ package final class RaceViewModel: Identifiable {
     package let id: String
     package let title: String
     package let category: RaceCategory
-    package let weatherSymbol: SFSymbol?
+    package let weather: Weather?
     package let location: String
-    package let startDateTime: String?
     package let trackInfo: [TrackInfo]
-    package let accessibilityTitle: String
+
+    package let accessibilityRaceName: String
+    package let accessibilityRaceLocation: String
 
     package private(set) var countdown = CountdownTime(label: "", accessibilityLabel: "")
     package private(set) var isStarted = false
@@ -58,32 +59,16 @@ package final class RaceViewModel: Identifiable {
         // Previews are broken in XCode 26.4 - needs XCode 26.5
         let countryFlag = ISO3166.flag(alpha3: country) ?? country
         let countryName = ISO3166.localizedCountry(alpha3: country) ?? country
-        let weather = raceForm.weather
+        weather = raceForm.weather
 
         title = raceForm.additionalData.revealedRaceInfo.raceName
-        weatherSymbol = weather?.symbol
         location = String(
-            localized: .raceTitle(
+            localized: .raceLocation(
                 a: countryFlag,
                 b: raceForm.additionalData.revealedRaceInfo.trackName,
                 c: raceForm.additionalData.revealedRaceInfo.state
             )
         )
-        accessibilityTitle = String(
-            localized: .accessibilityRaceTitleLabel(
-                category: category.name,
-                name: title,
-                location: String(
-                    localized: .raceTitle(
-                        a: raceForm.additionalData.revealedRaceInfo.trackName,
-                        b: raceForm.additionalData.revealedRaceInfo.state,
-                        c: countryName
-                    )
-                ),
-                weather: weather?.accessibilityLabel ?? ""
-            )
-        )
-
         trackInfo = Self.getTrackInfo(
             trackDistance: String(localized: .raceDistance(distance: "\(raceForm.distance)", units: raceForm.distanceType.shortName)),
             trackCondition: raceForm.trackCondition.name,
@@ -91,11 +76,15 @@ package final class RaceViewModel: Identifiable {
             trackSurface: raceForm.additionalData.revealedRaceInfo.trackSurface
         )
 
-        if let startDateTime = raceForm.additionalData.revealedRaceInfo.time.dateTimeToRelative {
-            self.startDateTime = String(localized: .raceStartsAt(time: startDateTime))
-        } else {
-            startDateTime = nil
-        }
+        accessibilityRaceName = String(localized: .accessibilityRaceName(name: title))
+        accessibilityRaceLocation = String(
+            localized: .raceLocation(
+                a: raceForm.additionalData.revealedRaceInfo.trackName,
+                b: raceForm.additionalData.revealedRaceInfo.state,
+                c: countryName
+            )
+        )
+
         startTimestamp = seconds
 
         startCountdownTimer()
@@ -141,13 +130,13 @@ package final class RaceViewModel: Identifiable {
         let elapsedSinceStart = abs(delta)
 
         countdown = .init(
-            label: Self.elapsedFormatter.string(from: TimeInterval(delta)) ?? "0",
+            label: Self.countdownFormatter.string(from: TimeInterval(delta)) ?? "0",
             accessibilityLabel: String(localized: .accessibilityRaceCountdownNegativeLabel(
-                seconds: Self.accessibilityElapsedFormatter.string(from: TimeInterval(elapsedSinceStart)) ?? "0")
+                seconds: Self.accessibilityCountdownFormatter.string(from: TimeInterval(elapsedSinceStart)) ?? "0")
             )
         )
         isStarted = true
-        isExpired = elapsedSinceStart >= 60
+        isExpired = elapsedSinceStart >= raceStoreServiceExpirationAllowance
 
         if isExpired {
             countdownTimer?.invalidate()
@@ -161,35 +150,19 @@ extension RaceViewModel {
 
     private static let countdownFormatter: DateComponentsFormatter = {
         let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.minute, .second]
+        formatter.allowedUnits = [.hour, .minute, .second]
         formatter.unitsStyle = .abbreviated
-        formatter.maximumUnitCount = 2
+        formatter.maximumUnitCount = 3
         formatter.zeroFormattingBehavior = [.dropLeading]
-        return formatter
-    }()
-
-    private static let elapsedFormatter: DateComponentsFormatter = {
-        let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.second]
-        formatter.unitsStyle = .short
-        formatter.maximumUnitCount = 1
         return formatter
     }()
 
     private static let accessibilityCountdownFormatter: DateComponentsFormatter = {
         let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.minute, .second]
+        formatter.allowedUnits = [.hour, .minute, .second]
         formatter.unitsStyle = .full
-        formatter.maximumUnitCount = 2
+        formatter.maximumUnitCount = 3
         formatter.zeroFormattingBehavior = [.dropLeading]
-        return formatter
-    }()
-
-    private static let accessibilityElapsedFormatter: DateComponentsFormatter = {
-        let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.second]
-        formatter.unitsStyle = .full
-        formatter.maximumUnitCount = 1
         return formatter
     }()
 

@@ -15,7 +15,6 @@ actor RaceStoreServiceImpl: RaceStoreService {
     @Injected(\.raceAPI) private var apiService: RaceAPIService
 
     private let now: @Sendable () -> Int
-    private let expirationAllowance: Int
     private let logger = Logger(subsystem: "Next2Go", category: "RaceStore")
 
     private var currentRaces: [RaceSummary] = []
@@ -25,12 +24,8 @@ actor RaceStoreServiceImpl: RaceStoreService {
     private var refreshTask: Task<Void, Never>?
     private var forceRefresh = false
 
-    init(
-        now: @escaping @Sendable () -> Int = { Int(Date().timeIntervalSince1970) },
-        expirationAllowance: Int = 60,
-    ) {
+    init(now: @escaping @Sendable () -> Int = { Int(Date().timeIntervalSince1970) }) {
         self.now = now
-        self.expirationAllowance = expirationAllowance
     }
 
     func stream() -> AsyncStream<[RaceSummary]> {
@@ -147,7 +142,7 @@ actor RaceStoreServiceImpl: RaceStoreService {
 
     private func nextRefreshTime(for races: [RaceSummary], now: Int) -> Int? {
         let earliestExpiry = races
-            .map { $0.advertisedStart.seconds + expirationAllowance }
+            .map { $0.advertisedStart.seconds + raceStoreServiceExpirationAllowance }
             .filter { $0 > now }
             .min()
 
@@ -166,7 +161,7 @@ actor RaceStoreServiceImpl: RaceStoreService {
             return $0.raceId < $1.raceId
         }
         .filter { race in
-            race.advertisedStart.seconds + expirationAllowance >= now
+            race.advertisedStart.seconds + raceStoreServiceExpirationAllowance >= now
         }
     }
 }

@@ -59,11 +59,12 @@ public final class RaceListViewModel {
     }
 
     func updateRaceFiltering() {
-        raceViewModels = unfilteredRaces.compactMap { race in
-            race.categoryId.raceCategory.map {
-                RaceViewModel(id: race.raceId, raceForm: race.raceForm, seconds: race.advertisedStart.seconds, category: $0)
+        raceViewModels = unfilteredRaces
+            .compactMap { race in
+                race.categoryId.raceCategory.map {
+                    RaceViewModel(id: race.raceId, raceForm: race.raceForm, seconds: race.advertisedStart.seconds, category: $0)
+                }
             }
-        }
     }
 
 }

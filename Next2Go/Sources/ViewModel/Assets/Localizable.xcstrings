@@ -12,6 +12,17 @@
         }
       }
     },
+    "AccessibilityRaceCategory" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Race category is %1$(category)@"
+          }
+        }
+      }
+    },
     "AccessibilityRaceCountdownNegativeLabel" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -34,13 +45,24 @@
         }
       }
     },
+    "AccessibilityRaceName" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Race name is %1$(name)@"
+          }
+        }
+      }
+    },
     "AccessibilityRaceTitleLabel" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$(category)@ race %2$(name)@ held in %3$(location)@. %4$(weather)@"
+            "value" : "%1$(category)@ race %2$(name)@ held in %3$(location)@."
           }
         }
       }
@@ -177,18 +199,7 @@
         }
       }
     },
-    "RaceStartsAt" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Starts %1$(time)@"
-          }
-        }
-      }
-    },
-    "RaceTitle" : {
+    "RaceLocation" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
