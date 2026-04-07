@@ -20,6 +20,7 @@ actor RaceAPIServiceImpl: RaceAPIService {
     let decoder = JSONDecoder()
     let logger = Logger(subsystem: "Next2Go", category: "RaceAPI")
 
+    // This should be extracted to environment if we had more endpoints incl staging/SIT/etc
     let apiEndpoint = URL(string: "https://api.neds.com.au/rest/v1/racing/?method=nextraces&count=10")!
 
     func getRaces() async throws -> [RaceSummary] {
@@ -38,7 +39,7 @@ actor RaceAPIServiceImpl: RaceAPIService {
 
             return Array(apiResponse.data.raceSummaries.values)
         } catch {
-            logger.error("Can not obtain data from the endpoint: \(error)")
+            logger.error("Can not obtain data from the backend: \(error)")
             throw error
         }
     }

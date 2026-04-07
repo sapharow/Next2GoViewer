@@ -161,7 +161,7 @@ extension RaceViewModel {
                 label: trackSurface,
                 accessibilityLabel: String(localized: .accessibilityTrackSurface(surface: trackSurface))
             )
-        ]
+        ].filter { !$0.label.isEmpty }
     }
 
 }

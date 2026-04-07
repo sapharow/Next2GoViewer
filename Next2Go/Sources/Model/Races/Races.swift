@@ -8,7 +8,7 @@
 
 package struct Races: Decodable, Sendable {
 
-    package var nextToGo: [String]?
+    package var nextToGo: [String]
     package var raceSummaries: [String: RaceSummary]
 
     package init(nextToGo: [String], raceSummaries: [String: RaceSummary]) {
