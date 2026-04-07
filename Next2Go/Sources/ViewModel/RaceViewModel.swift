@@ -14,44 +14,43 @@ import SFSafeSymbols
 @Observable
 package final class RaceViewModel {
 
-    package enum RaceCategory {
+    package enum RaceCategory: Sendable {
         case greyhound
         case harness
         case horse
     }
 
+    package struct Weather: Sendable {
+        package let symbol: SFSymbol
+        package let accessibilityLabel: String
+    }
+
+    package struct TrackInfo: Hashable, Sendable {
+        package let symbol: SFSymbol
+        package let label: String
+        package let accessibilityLabel: String
+    }
+
+    package struct CountdownTime: Sendable {
+        package var label: String
+        package var accessibilityLabel: String
+    }
+
+    // MARK: Constants
+
     package let title: String
     package let category: RaceCategory
     package let weatherSymbol: SFSymbol?
     package let location: String
-    package let trackDistance: String
-    package let trackCondition: String
-    package let trackDirection: String
-    package let trackSurface: String
     package let startDateTime: String?
-    private let startTimestamp: Int
+    package let trackInfo: [TrackInfo]
+    package let accessibilityTitle: String
 
-    private static let countdownFormatter: DateComponentsFormatter = {
-        let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.minute, .second]
-        formatter.unitsStyle = .abbreviated
-        formatter.maximumUnitCount = 2
-        formatter.zeroFormattingBehavior = [.dropLeading]
-        return formatter
-    }()
-
-    private static let elapsedFormatter: DateComponentsFormatter = {
-        let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.second]
-        formatter.unitsStyle = .short
-        formatter.maximumUnitCount = 1
-        return formatter
-    }()
-
-    package private(set) var timeLeft = String()
+    package private(set) var countdown = CountdownTime(label: "", accessibilityLabel: "")
     package private(set) var isStarted = false
     package private(set) var isExpired = false
 
+    private let startTimestamp: Int
     private var countdownTimer: Timer?
 
     init(raceForm: RaceForm, seconds: Int, category: RaceCategory) {
@@ -62,19 +61,39 @@ package final class RaceViewModel {
         // Important - emoji rendering is broken for SwiftUI Previews in XCode 26.3
         // Previews are broken in XCode 26.4 - needs XCode 26.5
         let countryFlag = ISO3166.flag(alpha3: country) ?? country
+        let countryName = ISO3166.localizedCountry(alpha3: country) ?? country
+        let weather = raceForm.weather
 
         title = raceForm.additionalData.revealedRaceInfo.raceName
-        weatherSymbol = raceForm.weatherSymbol
-        location = String(localized: .raceTitle(
-            flag: countryFlag,
-            trackName: raceForm.additionalData.revealedRaceInfo.trackName,
-            state: raceForm.additionalData.revealedRaceInfo.state)
+        weatherSymbol = weather?.symbol
+        location = String(
+            localized: .raceTitle(
+                a: countryFlag,
+                b: raceForm.additionalData.revealedRaceInfo.trackName,
+                c: raceForm.additionalData.revealedRaceInfo.state
+            )
+        )
+        accessibilityTitle = String(
+            localized: .accessibilityRaceTitleLabel(
+                category: category.name,
+                name: title,
+                location: String(
+                    localized: .raceTitle(
+                        a: raceForm.additionalData.revealedRaceInfo.trackName,
+                        b: raceForm.additionalData.revealedRaceInfo.state,
+                        c: countryName
+                    )
+                ),
+                weather: weather?.accessibilityLabel ?? ""
+            )
         )
 
-        trackDistance = String(localized: .raceDistance(distance: "\(raceForm.distance)", units: raceForm.distanceType.shortName))
-        trackCondition = raceForm.trackCondition.name
-        trackDirection = raceForm.additionalData.revealedRaceInfo.trackDirection
-        trackSurface = raceForm.additionalData.revealedRaceInfo.trackSurface
+        trackInfo = Self.getTrackInfo(
+            trackDistance: String(localized: .raceDistance(distance: "\(raceForm.distance)", units: raceForm.distanceType.shortName)),
+            trackCondition: raceForm.trackCondition.name,
+            trackDirection: raceForm.additionalData.revealedRaceInfo.trackDirection,
+            trackSurface: raceForm.additionalData.revealedRaceInfo.trackSurface
+        )
 
         if let startDateTime = raceForm.additionalData.revealedRaceInfo.time.dateTimeToRelative {
             self.startDateTime = String(localized: .raceStartsAt(time: startDateTime))
@@ -98,6 +117,7 @@ package final class RaceViewModel {
             return
         }
 
+        countdownTimer?.invalidate()
         countdownTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             Task { @MainActor in
                 self?.updateCountdownState()
@@ -111,14 +131,25 @@ package final class RaceViewModel {
         let delta = startTimestamp - now
 
         if delta >= 0 {
-            timeLeft = Self.countdownFormatter.string(from: TimeInterval(delta)) ?? "0"
+            countdown = .init(
+                label: Self.countdownFormatter.string(from: TimeInterval(delta)) ?? "0",
+                accessibilityLabel: String(localized: .accessibilityRaceCountdownPositiveLabel(
+                    seconds: Self.accessibilityCountdownFormatter.string(from: TimeInterval(delta)) ?? "0")
+                )
+            )
             isStarted = false
             isExpired = false
             return
         }
 
         let elapsedSinceStart = abs(delta)
-        timeLeft = "-\(Self.elapsedFormatter.string(from: TimeInterval(elapsedSinceStart)) ?? "0")"
+
+        countdown = .init(
+            label: Self.elapsedFormatter.string(from: TimeInterval(delta)) ?? "0",
+            accessibilityLabel: String(localized: .accessibilityRaceCountdownNegativeLabel(
+                seconds: Self.accessibilityElapsedFormatter.string(from: TimeInterval(elapsedSinceStart)) ?? "0")
+            )
+        )
         isStarted = true
         isExpired = elapsedSinceStart >= 60
 
@@ -130,14 +161,101 @@ package final class RaceViewModel {
 
 }
 
+extension RaceViewModel {
+
+    private static let countdownFormatter: DateComponentsFormatter = {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.minute, .second]
+        formatter.unitsStyle = .abbreviated
+        formatter.maximumUnitCount = 2
+        formatter.zeroFormattingBehavior = [.dropLeading]
+        return formatter
+    }()
+
+    private static let elapsedFormatter: DateComponentsFormatter = {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.second]
+        formatter.unitsStyle = .short
+        formatter.maximumUnitCount = 1
+        return formatter
+    }()
+
+    private static let accessibilityCountdownFormatter: DateComponentsFormatter = {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.minute, .second]
+        formatter.unitsStyle = .full
+        formatter.maximumUnitCount = 2
+        formatter.zeroFormattingBehavior = [.dropLeading]
+        return formatter
+    }()
+
+    private static let accessibilityElapsedFormatter: DateComponentsFormatter = {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.second]
+        formatter.unitsStyle = .full
+        formatter.maximumUnitCount = 1
+        return formatter
+    }()
+
+    static func getTrackInfo(trackDistance: String, trackCondition: String, trackDirection: String, trackSurface: String) -> [TrackInfo] {
+        [
+            .init(
+                symbol: .pointToprightArrowTriangleBackwardToPointBottomleftScurvepathFill,
+                label: trackDistance,
+                accessibilityLabel: String(localized: .accessibilityTrackDistance(distance: trackDistance))
+            ),
+            .init(
+                symbol: .pawprintFill,
+                label: trackCondition,
+                accessibilityLabel: String(localized: .accessibilityTrackCondition(condition: trackCondition))
+            ),
+            .init(
+                symbol: .signpostRightAndLeftFill,
+                label: trackDirection,
+                accessibilityLabel: String(localized: .accessibilityTrackDirection(direction: trackDirection))
+            ),
+            .init(
+                symbol: .appleMeditate,
+                label: trackSurface,
+                accessibilityLabel: String(localized: .accessibilityTrackSurface(surface: trackSurface))
+            )
+        ]
+    }
+
+}
+
+
+package extension RaceViewModel.RaceCategory {
+
+    var name: String {
+        switch self {
+        case .greyhound:
+            String(localized: .raceCategoryNameGreyhound)
+        case .harness:
+            String(localized: .raceCategoryNameHarness)
+        case .horse:
+            String(localized: .raceCategoryNameHorse)
+        }
+    }
+
+}
+
 extension RaceForm {
 
     // Race weather
-    var weatherSymbol: SFSymbol? {
+    var weather: RaceViewModel.Weather? {
         switch weatherId {
         case "01994c9e-3b74-11e8-a5eb-06a5c6d9a756",
-             "08e5f78c-1a36-11eb-9269-cef03e67f1a3": .sunMaxFill
-        case "0b43a420-3b75-11e8-a5eb-06a5c6d9a756": .cloudSunFill
+             "08e5f78c-1a36-11eb-9269-cef03e67f1a3":
+                .init(
+                    symbol: .sunMaxFill,
+                    accessibilityLabel: String(localized: .accessibilityRaceWeatherLabel(weather: String(localized: .accessibilityRaceWeatherSunny)))
+                )
+        case "0b43a420-3b75-11e8-a5eb-06a5c6d9a756":
+                .init(
+                    symbol: .cloudSunFill,
+                    accessibilityLabel: String(localized: .accessibilityRaceWeatherLabel(weather: String(localized: .accessibilityRaceWeatherOvercast)))
+                )
         default:
             // nil or unknown
             nil

@@ -1,6 +1,160 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "AccessibilityInfoLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$(category)@ is %2$(value)@"
+          }
+        }
+      }
+    },
+    "AccessibilityRaceCountdownNegativeLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$(seconds)@ since start"
+          }
+        }
+      }
+    },
+    "AccessibilityRaceCountdownPositiveLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$(seconds)@ left to start"
+          }
+        }
+      }
+    },
+    "AccessibilityRaceTitleLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$(category)@ race %2$(name)@ held in %3$(location)@. %4$(weather)@"
+          }
+        }
+      }
+    },
+    "AccessibilityRaceWeatherLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Race weather is %1$(weather)@"
+          }
+        }
+      }
+    },
+    "AccessibilityRaceWeatherOvercast" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overcast"
+          }
+        }
+      }
+    },
+    "AccessibilityRaceWeatherSunny" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sunny"
+          }
+        }
+      }
+    },
+    "AccessibilityTrackCondition" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Track condition %1$(condition)@"
+          }
+        }
+      }
+    },
+    "AccessibilityTrackDirection" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Track direction %1$(direction)@"
+          }
+        }
+      }
+    },
+    "AccessibilityTrackDistance" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Track distance %1$(distance)@"
+          }
+        }
+      }
+    },
+    "AccessibilityTrackSurface" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Track surface %1$(surface)@"
+          }
+        }
+      }
+    },
+    "RaceCategoryNameGreyhound" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Greyhound"
+          }
+        }
+      }
+    },
+    "RaceCategoryNameHarness" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Harness"
+          }
+        }
+      }
+    },
+    "RaceCategoryNameHorse" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Horse"
+          }
+        }
+      }
+    },
     "RaceDistance" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -18,7 +172,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Starts at %1$(time)@"
+            "value" : "Starts %1$(time)@"
           }
         }
       }
@@ -29,7 +183,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$(flag)@ %2$(trackName)@, %3$(state)@"
+            "value" : "%1$(a)@ %2$(b)@, %3$(c)@"
           }
         }
       }

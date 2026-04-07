@@ -60,6 +60,15 @@ enum ISO3166 {
         return scalars.count == 2 ? String(String.UnicodeScalarView(scalars)) : nil
     }
 
+    static func localizedCountry(alpha3: String) -> String? {
+        guard let alpha2 = alpha2(from: alpha3) else {
+            return nil
+        }
+
+        let locale = Locale.current
+        return locale.localizedString(forRegionCode: alpha2)
+    }
+
     static func flag(alpha3: String) -> String? {
         guard let a2 = alpha2(from: alpha3) else {
             return nil

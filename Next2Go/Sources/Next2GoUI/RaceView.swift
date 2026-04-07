@@ -44,18 +44,16 @@ struct RaceView: View {
                     }
                 }
             }
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(viewModel.accessibilityTitle)
+            .accessibilityAddTraits(.isHeader)
 
             Rectangle()
                 .frame(height: 1)
                 .opacity(0.25)
 
             // Track info
-            TrackInfo(info: [
-                .init(symbol: .pointToprightArrowTriangleBackwardToPointBottomleftScurvepathFill, text: viewModel.trackDistance),
-                .init(symbol: .pawprintFill, text: viewModel.trackCondition),
-                .init(symbol: .signpostRightAndLeftFill, text: viewModel.trackDirection),
-                .init(symbol: .appleMeditate, text: viewModel.trackSurface)
-            ])
+            TrackInfoView(info: viewModel.trackInfo)
 
             Rectangle()
                 .frame(height: 1)
@@ -67,8 +65,10 @@ struct RaceView: View {
                     Text(startDateTime)
                 }
                 Spacer()
-                Text(viewModel.timeLeft)
+                Text(viewModel.countdown.label)
                     .foregroundStyle(viewModel.isStarted ? .red : .primary)
+                    .accessibilityAddTraits(.updatesFrequently)
+                    .accessibilityLabel(viewModel.countdown.accessibilityLabel)
             }
 
         }
@@ -92,45 +92,6 @@ private extension RaceView {
         }
     }
 
-    struct TrackInfo: View {
-        struct TrackInfo: Hashable {
-            let symbol: SFSymbol
-            let text: String
-        }
-        let info: [TrackInfo]
-
-        @Environment(\.dynamicTypeSize) private var size
-
-        var body: some View {
-            if size < .accessibility1 {
-                HStack {
-                    ForEach(info, id: \.self) { item in
-                        TrackInfoItem(symbol: item.symbol, text: item.text)
-                    }
-                }
-                .font(.footnote)
-            } else {
-                ForEach(info, id: \.self) { item in
-                    TrackInfoItem(symbol: item.symbol, text: item.text)
-                }
-                .font(.footnote)
-            }
-        }
-    }
-
-    struct TrackInfoItem: View {
-        let symbol: SFSymbol
-        let text: String
-        var body: some View {
-            HStack {
-                Image(systemSymbol: symbol)
-                Text(text)
-                    .fontWidth(.condensed)
-            }
-            .padding(.horizontal, 4)
-        }
-    }
-
 }
 
 #Preview {
@@ -138,6 +99,5 @@ private extension RaceView {
     // Bug is fixed in XCode 26.5 Beta 1
     ScrollView {
         RaceView(viewModel: .preview)
-//            .background(Color.red)
     }
 }
