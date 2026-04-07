@@ -49,6 +49,7 @@ enum ISO3166 {
         alpha3ToAlpha2[alpha3.uppercased()]
     }
 
+    /// Regional indicator letters build flag emoji
     private static func flag(alpha2: String) -> String? {
         let code = alpha2.uppercased()
         guard code.count == 2 else {

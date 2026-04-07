@@ -1,5 +1,5 @@
 //
-//  RaceAPIServiceImplTests.swift
+//  RaceStoreServiceImplTests.swift
 //  Next2Go
 //
 //  Created by Iskandar Safarov on 7/4/2026.
@@ -23,10 +23,7 @@ import Testing
     Container.shared.raceAPI.register { mockService }
     defer { Container.shared.raceAPI.reset() }
 
-    let service = RaceStoreServiceImpl(
-        now: { 0 },
-        expirationAllowance: 5
-    )
+    let service = RaceStoreServiceImpl(now: { 0 })
 
     let stream = await service.stream()
     var iterator = stream.makeAsyncIterator()
@@ -53,10 +50,7 @@ import Testing
     Container.shared.raceAPI.register { mockService }
     defer { Container.shared.raceAPI.reset() }
 
-    let service = RaceStoreServiceImpl(
-        now: { 0 },
-        expirationAllowance: 5
-    )
+    let service = RaceStoreServiceImpl(now: { 0 })
 
     let firstStream = await service.stream()
     var firstIterator = firstStream.makeAsyncIterator()
@@ -78,10 +72,7 @@ import Testing
     Container.shared.raceAPI.register { mockService }
     defer { Container.shared.raceAPI.reset() }
 
-    let service = RaceStoreServiceImpl(
-        now: { 10_000 },
-        expirationAllowance: 5
-    )
+    let service = RaceStoreServiceImpl(now: { 10_000 })
 
     let stream = await service.stream()
     var iterator = stream.makeAsyncIterator()
@@ -106,10 +97,7 @@ import Testing
     Container.shared.raceAPI.register { mockService }
     defer { Container.shared.raceAPI.reset() }
 
-    let service = RaceStoreServiceImpl(
-        now: { now },
-        expirationAllowance: 60
-    )
+    let service = RaceStoreServiceImpl(now: { now })
 
     let stream = await service.stream()
     var iterator = stream.makeAsyncIterator()
@@ -135,10 +123,7 @@ import Testing
     Container.shared.raceAPI.register { mockService }
     defer { Container.shared.raceAPI.reset() }
 
-    let service = RaceStoreServiceImpl(
-        now: { 10_000 },
-        expirationAllowance: 5
-    )
+    let service = RaceStoreServiceImpl(now: { 10_000 })
 
     let stream = await service.stream()
     var iterator = stream.makeAsyncIterator()

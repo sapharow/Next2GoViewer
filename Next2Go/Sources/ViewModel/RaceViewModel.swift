@@ -47,7 +47,6 @@ package final class RaceViewModel: Identifiable {
     package private(set) var isExpired = false
 
     private let startTimestamp: Int
-    private var countdownTimer: Timer?
 
     init(id: String, raceForm: RaceForm, seconds: Int, category: RaceCategory) {
 
@@ -55,8 +54,8 @@ package final class RaceViewModel: Identifiable {
         self.category = category
         let country = raceForm.additionalData.revealedRaceInfo.country
 
-        // Important - emoji rendering is broken for SwiftUI Previews in XCode 26.3
-        // Previews are broken in XCode 26.4 - needs XCode 26.5
+        // UI shows a flag
+        // Accessibility uses the country name
         let countryFlag = ISO3166.flag(alpha3: country) ?? country
         let countryName = ISO3166.localizedCountry(alpha3: country) ?? country
         weather = raceForm.weather
@@ -86,33 +85,12 @@ package final class RaceViewModel: Identifiable {
         )
 
         startTimestamp = seconds
-
-        startCountdownTimer()
+        refreshCountdownState()
     }
 
-    isolated deinit {
-        countdownTimer?.invalidate()
-    }
-
-    // Starts and maintains a 1-second countdown against race start epoch.
-    private func startCountdownTimer() {
-        updateCountdownState()
-
-        guard !isExpired else {
-            return
-        }
-
-        countdownTimer?.invalidate()
-        countdownTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
-            Task { @MainActor in
-                self?.updateCountdownState()
-            }
-        }
-    }
-
-    // Updates countdown label and race lifecycle flags
-    private func updateCountdownState() {
-        let now = Int(Date().timeIntervalSince1970)
+    /// Updates countdown text and state
+    /// Uses the shared grace window after start
+    package func refreshCountdownState(now: Int = Int(Date().timeIntervalSince1970)) {
         let delta = startTimestamp - now
 
         if delta >= 0 {
@@ -137,11 +115,6 @@ package final class RaceViewModel: Identifiable {
         )
         isStarted = true
         isExpired = elapsedSinceStart >= raceStoreServiceExpirationAllowance
-
-        if isExpired {
-            countdownTimer?.invalidate()
-            countdownTimer = nil
-        }
     }
 
 }
@@ -196,7 +169,7 @@ extension RaceViewModel {
 
 extension RaceForm {
 
-    // Race weather
+    // Keeps backend ids out of the view layer
     var weather: RaceViewModel.Weather? {
         switch weatherId {
         case "01994c9e-3b74-11e8-a5eb-06a5c6d9a756",

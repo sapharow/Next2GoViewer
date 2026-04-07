@@ -13,15 +13,6 @@ public struct RaceListView: View {
 
     let viewModel: RaceListViewModel
 
-    /// Active races shown in the list.
-    private var visibleRaceViewModels: [RaceViewModel] {
-        Array(
-            viewModel.raceViewModels
-                .filter { !$0.isExpired }
-                .prefix(5)
-        )
-    }
-
     private var filterMenu: some View {
         Menu {
             ForEach(RaceCategory.allCases, id: \.self) { category in
@@ -42,7 +33,9 @@ public struct RaceListView: View {
         } label: {
             Label(viewModel.categoriesLabel, systemSymbol: .line3HorizontalDecreaseCircle)
         }
-        .compositingGroup() // This works around SwiftUI bug in iOS 26
+        // Keeps the menu label stable
+        // SwiftUI renders it wrong on iOS 26
+        .compositingGroup()
     }
 
     public var body: some View {
@@ -53,11 +46,11 @@ public struct RaceListView: View {
                     .padding(.horizontal)
             }
             List {
-                ForEach(visibleRaceViewModels, id: \.id) { value in
+                ForEach(viewModel.raceViewModels, id: \.id) { value in
                     RaceView(viewModel: value)
                 }
             }
-            .animation(.default, value: visibleRaceViewModels.map(\.id))
+            .animation(.default, value: viewModel.raceViewModels.map(\.id))
             .refreshable {
                 viewModel.refreshRaces()
             }
@@ -70,7 +63,7 @@ public struct RaceListView: View {
 }
 
 #Preview {
-    // XCode 26.4 got a regression bug - Previews of the UI inside of the package do not work.
-    // Bug is fixed in XCode 26.5 Beta 1
+    // Xcode 26.4 has a regression where package previews do not work
+    // The fix is in Xcode 26.5 Beta 1
     RaceListView(viewModel: .preview)
 }

@@ -6,6 +6,7 @@
 //
 
 import Factory
+import Foundation
 import Model
 import Observation
 import Services
@@ -14,17 +15,20 @@ import Services
 @MainActor
 public final class RaceListViewModel {
 
-    /// Latest races loaded from backend.
-    package private(set) var raceViewModels: [RaceViewModel] = []
+    package let categoriesLabel = String(localized: .categoryFilterLabel)
 
-    /// Races to filter. Empty list means - all race categories are displayed
+    private let visibleRacesLimit = 5
+
+    /// Empty set means all categories
     package var raceCategories: Set<RaceCategory> = [] {
         didSet {
             updateRaceFiltering()
         }
     }
 
-    /// Service resolved from Factory container registration in `Services`.
+    /// Races currently visible in the UI
+    package private(set) var raceViewModels: [RaceViewModel] = []
+
     @ObservationIgnored
     @Injected(\.raceStore)
     private var raceStoreService: RaceStoreService
@@ -33,25 +37,30 @@ public final class RaceListViewModel {
     private var raceUpdateTask: Task<Void, Never>?
 
     @ObservationIgnored
-    private var unfilteredRaces: [RaceSummary] = []
+    private var countdownTimer: Timer?
 
-    package let categoriesLabel = String(localized: .categoryFilterLabel)
+    @ObservationIgnored
+    private var allRaceViewModels: [RaceViewModel] = []
 
+    /// Store updates data changes
+    /// Timer keeps countdowns moving between updates
     public init() {
-        // Intentionally left blank
+        startChildrenCountdownTimer()
+
         let store = raceStoreService
         raceUpdateTask = Task { [store, weak self] in
             for await races in await store.stream() {
                 if let self {
-                    unfilteredRaces = races
-                    updateRaceFiltering()
+                    allRaceViewModels = Self.makeRaceViewModels(from: races)
+                    refreshChildrenCountdown()
                 }
             }
         }
     }
 
-    deinit {
+    isolated deinit {
         raceUpdateTask?.cancel()
+        countdownTimer?.invalidate()
     }
 
     package func refreshRaces() {
@@ -60,25 +69,60 @@ public final class RaceListViewModel {
         }
     }
 
-    func updateRaceFiltering() {
-        raceViewModels = unfilteredRaces
-            .compactMap { race in
-                guard let category = race.categoryId.raceCategory else {
-                    return nil
+    private func startChildrenCountdownTimer() {
+        countdownTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+            Task { @MainActor in
+                guard let self else {
+                    return
                 }
 
-                if !raceCategories.isEmpty, !raceCategories.contains(category) {
-                    return nil
-                }
-
-                return RaceViewModel(id: race.raceId, raceForm: race.raceForm, seconds: race.advertisedStart.seconds, category: category)
+                self.refreshChildrenCountdown()
             }
+        }
+    }
+
+    private func refreshChildrenCountdown() {
+        let now = Int(Date().timeIntervalSince1970)
+        allRaceViewModels.forEach { $0.refreshCountdownState(now: now) }
+        updateRaceFiltering()
+    }
+
+    /// Applies category, expiry, and count rules in one place
+    private func updateRaceFiltering() {
+        raceViewModels = Array(
+            allRaceViewModels
+                .filter { race in
+                    if !raceCategories.isEmpty, !raceCategories.contains(race.category) {
+                        return false
+                    }
+
+                    return !race.isExpired
+                }
+                .prefix(visibleRacesLimit)
+        )
+    }
+
+    /// Maps service race summaries to child view models.
+    private static func makeRaceViewModels(from races: [RaceSummary]) -> [RaceViewModel] {
+        races.compactMap { race in
+            guard let category = race.categoryId.raceCategory else {
+                return nil
+            }
+
+            return RaceViewModel(
+                id: race.raceId,
+                raceForm: race.raceForm,
+                seconds: race.advertisedStart.seconds,
+                category: category
+            )
+        }
     }
 
 }
 
 extension String {
 
+    /// Maps backend UUIDs to app categories
     var raceCategory: RaceCategory? {
         switch self {
         case "9daef0d7-bf3c-4f50-921d-8e818c60fe61": .greyhound

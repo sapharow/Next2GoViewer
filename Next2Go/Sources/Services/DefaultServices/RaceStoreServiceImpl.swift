@@ -65,6 +65,8 @@ actor RaceStoreServiceImpl: RaceStoreService {
         subscribers.removeValue(forKey: id)
     }
 
+    /// Refreshes only when visible races may change
+    /// Also reacts to manual refresh requests
     private func refreshLoop() async {
         defer {
             refreshTask = nil
@@ -111,7 +113,8 @@ actor RaceStoreServiceImpl: RaceStoreService {
         }
     }
 
-    /// Waits until next scheduled refresh and exits early when force refresh is requested.
+    /// Sleeps in short steps
+    /// This lets manual refresh end the wait early
     private func waitUntilNextRefresh(delay: Int) async -> Bool {
         var remainingDelay = delay
 
@@ -140,6 +143,7 @@ actor RaceStoreServiceImpl: RaceStoreService {
         }
     }
 
+    /// Uses the same expiry window as the UI
     private func nextRefreshTime(for races: [RaceSummary], now: Int) -> Int? {
         let earliestExpiry = races
             .map { $0.advertisedStart.seconds + raceStoreServiceExpirationAllowance }
@@ -153,6 +157,7 @@ actor RaceStoreServiceImpl: RaceStoreService {
         return earliestExpiry
     }
 
+    /// Sorts in the store to keep later filtering stable
     private func normalize(_ races: [RaceSummary], now: Int) -> [RaceSummary] {
         races.sorted {
             if $0.advertisedStart.seconds != $1.advertisedStart.seconds {

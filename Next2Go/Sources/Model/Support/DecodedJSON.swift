@@ -7,7 +7,7 @@
 
 import Foundation
 
-// Convenient wrapper to decode JSON provided as a String
+/// Decodes JSON sent as a string or as an object
 @propertyWrapper
 package struct DecodedJSON<T: Decodable & Sendable & Equatable>: Decodable, Sendable, Equatable {
     package let wrappedValue: T

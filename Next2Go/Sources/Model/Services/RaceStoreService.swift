@@ -7,15 +7,15 @@
 
 import Foundation
 
-// Time races shall be preserved before counted as expired
+/// Seconds a race stays visible after start
 package let raceStoreServiceExpirationAllowance = 60
 
 package protocol RaceStoreService: Sendable {
 
-    /// Retrieve race updates yielding current Races instance first (if any)
+    /// Streams race updates and yields cached races first
     func stream() async -> AsyncStream<[RaceSummary]>
 
-    /// Force-refresh data
+    /// Requests an early refresh from the store
     func refresh() async
 
 }

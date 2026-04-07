@@ -1,0 +1,40 @@
+{
+  "configurations" : [
+    {
+      "id" : "67DA8249-9FA3-46A6-8ACD-CA863703FCFF",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "performanceAntipatternCheckerEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "ViewModelTests",
+        "name" : "ViewModelTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "ModelTests",
+        "name" : "ModelTests"
+      }
+    },
+    {
+      "parallelizable" : false,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "ServicesTests",
+        "name" : "ServicesTests"
+      }
+    }
+  ],
+  "version" : 1
+}
